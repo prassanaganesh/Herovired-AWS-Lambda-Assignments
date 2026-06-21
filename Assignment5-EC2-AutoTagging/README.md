@@ -12,7 +12,6 @@ Automatically tag new EC2 instances with launch date, timestamp, and custom tags
 - Select AWS service → Lambda.
 - Attach policy: **AmazonEC2FullAccess**.
 - Role name: `Lambda-EC2-AutoTag-Role`.
-- 📸 *Screenshot: IAM role created.*
 
 ---
 
@@ -21,61 +20,31 @@ Automatically tag new EC2 instances with launch date, timestamp, and custom tags
 - Function name: `EC2-Auto-Tag-On-Launch`.
 - Runtime: Python 3.12.
 - Execution role: Use existing → `Lambda-EC2-AutoTag-Role`.
-- 📸 *Screenshot: Lambda function created.*
 
 ---
 
 ### Step 3: Write the Lambda Code
 ```python
 import boto3
-from datetime import datetime, timezone
+import datetime
 
 def lambda_handler(event, context):
     ec2 = boto3.client('ec2')
     
-    print("Received event:")
-    print(event)
+    # Extract instance ID from the event
+    instance_id = event['detail']['instance-id']
     
-    # Extract instance ID and state from event
-    try:
-        instance_id = event['detail']['instance-id']
-        state = event['detail']['state']
-    except KeyError:
-        print("Could not extract instance details from event")
-        return {'statusCode': 400, 'body': 'Invalid event format'}
-    
-    print(f"Instance {instance_id} is now in state: {state}")
-    
-    # Only tag on 'pending' or 'running' state
-    if state not in ['pending', 'running']:
-        print(f"Skipping - state is {state}")
-        return {'statusCode': 200, 'body': 'Skipped - not a launch event'}
-    
-    # Get current date/time
-    current_time = datetime.now(timezone.utc)
-    date_string = current_time.strftime('%Y-%m-%d')
-    timestamp_string = current_time.strftime('%Y-%m-%d %H:%M:%S UTC')
-    
-    # Apply tags
+    # Create tags: current date + custom tag
     tags = [
-        {'Key': 'LaunchDate', 'Value': date_string},
-        {'Key': 'LaunchTimestamp', 'Value': timestamp_string},
-        {'Key': 'AutoTagged', 'Value': 'True'},
-        {'Key': 'Environment', 'Value': 'Development'}  # Custom tag
+        {'Key': 'LaunchDate', 'Value': datetime.datetime.now().strftime("%Y-%m-%d")},
+        {'Key': 'Owner', 'Value': 'AutoTagLambda'}
     ]
     
+    # Apply tags
     ec2.create_tags(Resources=[instance_id], Tags=tags)
     
-    print(f"✓ Successfully tagged instance {instance_id}")
-    print(f"  Tags applied: {tags}")
-    
-    return {
-        'statusCode': 200,
-        'body': {
-            'instance_id': instance_id,
-            'tags_applied': tags
-        }
-    }
+    print(f"Tagged instance {instance_id} with {tags}")
+
 ```
 ### Step 4: Create EventBridge Rule
 - Navigate to Amazon EventBridge → Rules → Create rule.
