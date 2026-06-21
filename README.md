@@ -5,13 +5,14 @@ This repository contains solutions for Herovired AWS Lambda Assignments using **
 ---
 
 ### 📂 Repository Structure
-Herovired-AWS-Lambda-Assignments/
-│
-├── Assignment1-EC2-AutoManagement/
-├── Assignment2-S3-Cleanup/
-├── Assignment3-S3-Encryption-Monitor/
-├── Assignment5-EC2-AutoTagging/
-└── README.md   (this file)
+
+Herovired-AWS-Lambda-Assignments
+
+ ├── Assignment1-EC2-AutoManagement/
+ ├── Assignment2-S3-Cleanup/
+ ├── Assignment3-S3-Encryption-Monitor/
+ ├── Assignment5-EC2-AutoTagging/
+ └── README.md   (this file)
 
 
 ---
