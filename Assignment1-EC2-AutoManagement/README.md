@@ -97,10 +97,10 @@ def lambda_handler(event, context):
 
 ```
 ---
-
 ### Step 7: Configure Timeout
   - Go to Configuration → General configuration → Edit.
   - Set Timeout: 30 seconds.
+
 ---
 ### Step 8: Test the Lambda Function
   - Click Test → Create test event → Event JSON: {} → Save → Test.
