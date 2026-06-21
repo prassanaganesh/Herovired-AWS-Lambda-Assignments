@@ -96,41 +96,32 @@ def lambda_handler(event, context):
     }
 ```
 
-###Step 7: Configure Timeout
+### Step 7: Configure Timeout
 Go to Configuration → General configuration → Edit.
 
 Set Timeout: 30 seconds.
 
 
 ### Step 8: Test the Lambda Function
-Click Test → Create test event → Event JSON: {} → Save → Test.
+  - Click Test → Create test event → Event JSON: {} → Save → Test.
+  - Check execution results for success message.
 
-Check execution results for success message.
 
-
-###Step 9: Verify in EC2 Dashboard
-Refresh EC2 dashboard.
-
-Confirm:
-
-Auto-Stop-Instance is now stopped.
-
-Auto-Start-Instance is now running.
+### Step 9: Verify in EC2 Dashboard
+  - Refresh EC2 dashboard.
+  - Confirm:
+    Auto-Stop-Instance is now stopped.
+    Auto-Start-Instance is now running.
 
 ### Methods Used
-AWS Lambda for automation.
-
-Boto3 SDK for EC2 operations (describe_instances, stop_instances, start_instances).
-
-IAM Role with AmazonEC2FullAccess policy.
-
-Tags (Action=Auto-Stop, Action=Auto-Start) to identify instances.
-
-Results
-Lambda successfully stopped the running instance with Auto-Stop tag.
-
-Lambda successfully started the stopped instance with Auto-Start tag.
-
-Automation verified in EC2 dashboard.
+  - AWS Lambda for automation.
+  - Boto3 SDK for EC2 operations (describe_instances, stop_instances, start_instances).
+  - IAM Role with AmazonEC2FullAccess policy.
+  - Tags (Action=Auto-Stop, Action=Auto-Start) to identify instances
+    .
+### Results
+  - Lambda successfully stopped the running instance with Auto-Stop tag.
+  - Lambda successfully started the stopped instance with Auto-Start tag.
+  - Automation verified in EC2 dashboard.
 
 
